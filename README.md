@@ -1,3 +1,4 @@
+changes for part 7
 some changes for part 7
 sum changes
 <<<<<<< HEAD
