@@ -1,4 +1,3 @@
-sum changes 7
 sum changes
 <<<<<<< HEAD
 changes in copyA
