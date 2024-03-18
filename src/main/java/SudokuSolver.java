@@ -1,2 +1,3 @@
-package PACKAGE_NAME;public class SudokuSolver {
+public interface SudokuSolver {
+    void solve(SudokuBoard board);
 }

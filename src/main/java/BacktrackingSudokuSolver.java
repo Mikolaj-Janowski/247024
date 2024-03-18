@@ -1,7 +1,7 @@
 import java.util.Arrays;
 import java.util.Random;
 
-public class TypeSudokuSolver implements SudokuSolver {
+public class BacktrackingSudokuSolver implements SudokuSolver {
     @Override
     public void solve(SudokuBoard board) {
         fillBoard(board, 0);
