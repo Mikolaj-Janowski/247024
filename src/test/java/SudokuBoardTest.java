@@ -3,16 +3,6 @@ import org.junit.Test;
 
 public class SudokuBoardTest {
 
-    @Test
-    public void testSolveGame() {
-        SudokuSolver solver = new BacktrackingSudokuSolver();
-        SudokuBoard board = new SudokuBoard(solver);
-        board.solveGame();
-
-        assertTrue(checkRows(board));
-        assertTrue(checkColumns(board));
-        assertTrue(checkBoxes(board));
-    }
 
     @Test
     public void testGetSet() {
@@ -22,77 +12,43 @@ public class SudokuBoardTest {
     }
 
     @Test
-    public void testIsBoardValid() {
+    public void testSolveGame() {
         SudokuSolver solver = new BacktrackingSudokuSolver();
         SudokuBoard board = new SudokuBoard(solver);
         board.solveGame();
+
         assertTrue(board.isBoardValid());
     }
 
-    private boolean checkRows(SudokuBoard board) {
-        for (int i = 0; i < 9; i++) {
-            if (!checkRow(board, i)) {
-                return false;
-            }
-        }
-        return true;
-    }
+    @Test
+    public void testIsBoardValid() {
+        SudokuSolver solver = new BacktrackingSudokuSolver();
+        SudokuBoard board = new SudokuBoard(solver);
 
-    private boolean checkRow(SudokuBoard board, int row) {
-        boolean[] used = new boolean[10];
-        for (int i = 0; i < 9; i++) {
-            int num = board.get(row, i);
-            if (num != 0 && used[num]) {
-                return false;
-            }
-            used[num] = true;
-        }
-        return true;
-    }
+        // Empty board should be valid
+        assertTrue(board.isBoardValid());
 
-    private boolean checkColumns(SudokuBoard board) {
-        for (int i = 0; i < 9; i++) {
-            if (!checkColumn(board, i)) {
-                return false;
-            }
-        }
-        return true;
-    }
+        // Invalid board with duplicate numbers in row
+        board.set(0, 0, 1);
+        board.set(0, 1, 1);
+        assertFalse(board.isBoardValid());
 
-    private boolean checkColumn(SudokuBoard board, int col) {
-        boolean[] used = new boolean[10];
-        for (int i = 0; i < 9; i++) {
-            int num = board.get(i, col);
-            if (num != 0 && used[num]) {
-                return false;
-            }
-            used[num] = true;
-        }
-        return true;
-    }
+        // Invalid board with duplicate numbers in column
+        board = new SudokuBoard(solver);
+        board.set(0, 0, 1);
+        board.set(1, 0, 1);
+        assertFalse(board.isBoardValid());
 
-    private boolean checkBoxes(SudokuBoard board) {
-        for (int startRow = 0; startRow < 9; startRow += 3) {
-            for (int startCol = 0; startCol < 9; startCol += 3) {
-                if (!checkBox(board, startRow, startCol)) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
+        // Invalid board with duplicate numbers in box
+        board = new SudokuBoard(solver);
+        board.set(0, 0, 1);
+        board.set(1, 1, 1);
+        assertFalse(board.isBoardValid());
 
-    private boolean checkBox(SudokuBoard board, int startRow, int startCol) {
-        boolean[] used = new boolean[10];
-        for (int i = startRow; i < startRow + 3; i++) {
-            for (int j = startCol; j < startCol + 3; j++) {
-                int num = board.get(i, j);
-                if (num != 0 && used[num]) {
-                    return false;
-                }
-                used[num] = true;
-            }
-        }
-        return true;
+        // Valid board
+        board = new SudokuBoard(solver);
+        board.set(0, 0, 1);
+        board.set(1, 1, 2);
+        assertTrue(board.isBoardValid());
     }
 }
